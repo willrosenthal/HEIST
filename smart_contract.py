@@ -3,6 +3,7 @@ from solcx import compile_source, install_solc
 from web3 import Web3
 from utility_functions import basic_error_handling
 
+# Ensure we have a compatible Solidity version installed
 install_solc('0.8.0')
 
 def deploy_contract(w3, account_proposer, proposer_private_key):
@@ -41,6 +42,9 @@ def deploy_contract(w3, account_proposer, proposer_private_key):
     return contract_address, handshake_contract
 
 def execute_smart_contract(w3, contract, handshake_contract, account_requester, requester_private_key):
+    """
+    Create a new contract on-chain via the Handshake.sol method createContract(...).
+    """
     try:
         nonce = w3.eth.get_transaction_count(account_requester)
         tx_dict = handshake_contract.functions.createContract(
@@ -62,25 +66,32 @@ def execute_smart_contract(w3, contract, handshake_contract, account_requester, 
         signed_tx = w3.eth.account.sign_transaction(tx_dict, private_key=requester_private_key)
         tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
         tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
-        
-        # Get the returned contract ID from the transaction receipt
+
+        # Process logs to get the returned contract ID
         tx_logs = handshake_contract.events.ContractCreated().process_receipt(tx_receipt)
         contract_id = tx_logs[0]['args']['id']
-        
+
         print(f"Smart contract execution successful for contract {contract.contract_id} (Blockchain ID: {contract_id}).")
-        contract.blockchain_id = contract_id  # Store the blockchain contract ID
+        contract.blockchain_id = contract_id  # Store the blockchain contract ID locally
         return True
+
     except Exception as e:
         print(f"Smart contract execution failed: {e}")
         return basic_error_handling(contract)
 
 def validate_node(node):
-    # Simulate HandSHAKE verification
-    return True  # Assuming validation is successful for simplicity
+    """
+    Simulate a node validation step. 
+    Return True if the node passes HandSHAKE validation.
+    """
+    return True  # In a real scenario, we might do cryptographic checks, etc.
 
 def health_check_node(node):
-    # Check node's online status and bandwidth availability
-    print(f"Health check for Node {node.node_id}: Online={node.is_online}, Bandwidth used={node.total_bandwidth_used}/{node.bandwidth}")
+    """
+    Check node's health: ensure it is online and has enough bandwidth available.
+    """
+    print(f"Health check for Node {node.node_id}: Online={node.is_online}, "
+          f"Bandwidth used={node.total_bandwidth_used}/{node.bandwidth}")
     if not node.is_online or (node.total_bandwidth_used >= node.bandwidth):
         return False
     return True
