@@ -258,4 +258,3 @@ Node 2 accepted contract 4956 (Urgency: 3, Priority: 4)
 - **Step 6**: Upon “conditions restored,” active contracts are terminated.
 
 Thus, we confirm the simulation thoroughly demonstrates each core concept for the HEIST environment.
-````
