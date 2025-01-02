@@ -1,0 +1,203 @@
+﻿C:/Python312/python.exe "c:/Users/Will Spare/Documents/HEIST/main.py" 
+Contract deployed at address: 0x05DE4a0B3b4980F838E7EdA81b6e84C6785EaCB3
+
+
+=== Simulation Cycle 1 ===
+
+
+[SA Hub] Threat detected! Issuing alerts to all nodes...
+[Alert] Node 1 received threat alert from SA Hub.
+[Alert] Node 2 received threat alert from SA Hub.
+[Alert] Node 3 received threat alert from SA Hub.
+[Alert] Node 4 received threat alert from SA Hub.
+
+
+[RoutingHub] Routing request 1 from GroundStation3 to Satellite2
+Smart contract execution successful for contract 3859 (Blockchain ID: 1).
+Health check for Node 1: Online=True, Bandwidth used=0/1256
+Health check for Node 2: Online=True, Bandwidth used=0/1864
+Health check for Node 3: Online=True, Bandwidth used=0/1843
+Health check for Node 4: Online=True, Bandwidth used=0/1875
+Node 4 status: Online=True, Condition=threat_alert
+Node 4 initiating handshake for contract 3859
+Node 4 passed HandSHAKE validation.
+Node 4 bandwidth: 0/1875 (Available: 1875 MB)
+[2025-01-02 13:43:23] Operator 4: Accepted rerouting request. Reason: None
+Node 4 accepted contract 3859 (Urgency: 2, Priority: 2)
+[RoutingHub] Contract 3859 assigned to Node 4
+Node 1 has no tasks to process.
+Node 2 has no tasks to process.
+Node 3 has no tasks to process.
+Node 4 is processing contract 3859
+Node 4 transferring data: 100%|█████| 200/200 [00:02<00:00, 91.99MB/s]
+Node 4 completed processing contract 3859
+Logging performance metrics for Node 4, Contract 3859:
+Latency: 10000.00 ms, Bandwidth Usage: 200 MB
+Node 4 has no tasks to process.
+
+
+[RoutingHub] Routing request 4 from GroundStation3 to Satellite1
+Smart contract execution successful for contract 4956 (Blockchain ID: 2).
+Health check for Node 1: Online=True, Bandwidth used=0/1256
+Health check for Node 2: Online=True, Bandwidth used=0/1864
+Health check for Node 3: Online=True, Bandwidth used=0/1843
+Health check for Node 4: Online=True, Bandwidth used=200/1875
+Node 2 status: Online=True, Condition=threat_alert
+Node 2 initiating handshake for contract 4956
+Node 2 passed HandSHAKE validation.
+Node 2 bandwidth: 0/1864 (Available: 1864 MB)
+[2025-01-02 13:43:26] Operator 2: Accepted rerouting request. Reason: None
+Node 2 accepted contract 4956 (Urgency: 3, Priority: 4)
+[RoutingHub] Contract 4956 assigned to Node 2
+[RoutingHub] Continuous log for high-security contract 3859 in progress...
+[RoutingHub] Continuous log for high-security contract 4956 in progress...
+
+
+Detecting disruptions...
+
+
+=== Simulation Cycle 2 ===
+Node 1 has no tasks to process.
+Node 2 is processing contract 4956
+Node 2 transferring data: 100%|█████| 200/200 [00:02<00:00, 92.78MB/s]
+Node 2 completed processing contract 4956
+Logging performance metrics for Node 2, Contract 4956:
+Latency: 6666.67 ms, Bandwidth Usage: 200 MB
+Node 2 has no tasks to process.
+Node 3 has no tasks to process.
+Node 4 has no tasks to process.
+
+
+[RoutingHub] Routing request 7 from GroundStation1 to Satellite2
+Smart contract execution successful for contract 8968 (Blockchain ID: 3).
+Health check for Node 1: Online=True, Bandwidth used=0/1256
+Health check for Node 2: Online=True, Bandwidth used=200/1864
+Health check for Node 3: Online=True, Bandwidth used=0/1843
+Health check for Node 4: Online=True, Bandwidth used=200/1875
+Node 3 status: Online=True, Condition=threat_alert
+Node 3 initiating handshake for contract 8968
+Node 3 passed HandSHAKE validation.
+Node 3 bandwidth: 0/1843 (Available: 1843 MB)
+[2025-01-02 13:43:29] Operator 3: Accepted rerouting request. Reason: None
+Node 3 accepted contract 8968 (Urgency: 2, Priority: 3)
+[RoutingHub] Contract 8968 assigned to Node 3
+[RoutingHub] Continuous log for high-security contract 3859 in progress...
+[RoutingHub] Continuous log for high-security contract 4956 in progress...
+
+
+Detecting disruptions...
+
+
+=== Simulation Cycle 3 ===
+
+
+[SA Hub] Conditions restored. Signaling DLR to terminate contracts.
+[RoutingHub] Terminating contract 3859 on Node 4 due to restoration.
+[RoutingHub] Final log for contract 3859 has been produced by Node 4.
+[RoutingHub] Terminating contract 4956 on Node 2 due to restoration.
+[RoutingHub] Final log for contract 4956 has been produced by Node 2.
+[RoutingHub] Terminating contract 8968 on Node 3 due to restoration.
+[RoutingHub] Final log for contract 8968 has been produced by Node 3.
+Node 1 has no tasks to process.
+Node 2 has no tasks to process.
+Node 3 is processing contract 8968
+Node 3 transferring data: 100%|█████| 100/100 [00:01<00:00, 92.53MB/s]
+Node 3 completed processing contract 8968
+Logging performance metrics for Node 3, Contract 8968:
+Latency: 5000.00 ms, Bandwidth Usage: 100 MB
+Node 3 has no tasks to process.
+Node 4 has no tasks to process.
+
+
+[RoutingHub] Routing request 6 from GroundStation2 to Satellite1
+Smart contract execution successful for contract 3614 (Blockchain ID: 4).
+Health check for Node 1: Online=True, Bandwidth used=0/1256
+Health check for Node 2: Online=True, Bandwidth used=200/1864
+Health check for Node 3: Online=True, Bandwidth used=100/1843
+Health check for Node 4: Online=True, Bandwidth used=200/1875
+Node 3 status: Online=True, Condition=threat_alert
+Node 3 initiating handshake for contract 3614
+Node 3 passed HandSHAKE validation.
+Node 3 bandwidth: 100/1843 (Available: 1743 MB)
+[2025-01-02 13:43:31] Operator 3: Accepted rerouting request. Reason: None
+Node 3 accepted contract 3614 (Urgency: 1, Priority: 3)
+[RoutingHub] Contract 3614 assigned to Node 3
+
+
+Detecting disruptions...
+
+
+=== Simulation Cycle 4 ===
+
+
+[SA Hub] Threat detected! Issuing alerts to all nodes...
+[Alert] Node 1 received threat alert from SA Hub.
+[Alert] Node 2 received threat alert from SA Hub.
+[Alert] Node 3 received threat alert from SA Hub.
+[Alert] Node 4 received threat alert from SA Hub.
+
+
+[RoutingHub] Routing request 1 from GroundStation3 to Satellite2
+Smart contract execution successful for contract 1523 (Blockchain ID: 5).
+Health check for Node 1: Online=True, Bandwidth used=0/1256
+Health check for Node 2: Online=True, Bandwidth used=200/1864
+Health check for Node 3: Online=True, Bandwidth used=150/1843
+Health check for Node 4: Online=True, Bandwidth used=200/1875
+Node 3 status: Online=True, Condition=threat_alert
+Node 3 initiating handshake for contract 1523
+Node 3 passed HandSHAKE validation.
+Node 3 bandwidth: 150/1843 (Available: 1693 MB)
+[2025-01-02 13:43:33] Operator 3: Accepted rerouting request. Reason: None
+Node 3 accepted contract 1523 (Urgency: 2, Priority: 2)
+[RoutingHub] Contract 1523 assigned to Node 3
+Node 1 has no tasks to process.
+Node 2 has no tasks to process.
+Node 3 is processing contract 1523
+Node 3 transferring data: 100%|█████| 200/200 [00:02<00:00, 91.98MB/s]
+Node 3 completed processing contract 1523
+Logging performance metrics for Node 3, Contract 1523:
+Latency: 10000.00 ms, Bandwidth Usage: 200 MB
+Node 3 is processing contract 3614
+Node 3 transferring data: 100%|███████| 50/50 [00:00<00:00, 92.87MB/s]
+Node 3 completed processing contract 3614
+Logging performance metrics for Node 3, Contract 3614:
+Latency: 5000.00 ms, Bandwidth Usage: 50 MB
+Node 3 has no tasks to process.
+Node 4 has no tasks to process.
+[RoutingHub] Continuous log for high-security contract 1523 in progress...
+
+
+Detecting disruptions...
+
+
+=== Simulation Cycle 5 ===
+
+
+[SA Hub] Conditions restored. Signaling DLR to terminate contracts.
+[RoutingHub] Terminating contract 3614 on Node 3 due to restoration.
+[RoutingHub] Final log for contract 3614 has been produced by Node 3.
+[RoutingHub] Terminating contract 1523 on Node 3 due to restoration.
+[RoutingHub] Final log for contract 1523 has been produced by Node 3.
+Node 4 updated condition: interference, Online: True
+Node 1 has no tasks to process.
+Node 2 has no tasks to process.
+Node 3 has no tasks to process.
+Node 4 has no tasks to process.
+
+
+[RoutingHub] Routing request 7 from GroundStation1 to Satellite2
+Smart contract execution successful for contract 1587 (Blockchain ID: 6).
+Health check for Node 1: Online=True, Bandwidth used=0/1256
+Health check for Node 2: Online=True, Bandwidth used=200/1864
+Health check for Node 3: Online=True, Bandwidth used=350/1843
+Health check for Node 4: Online=True, Bandwidth used=200/1875
+Node 4 status: Online=True, Condition=interference
+Node 4 initiating handshake for contract 1587
+Node 4 passed HandSHAKE validation.
+Node 4 bandwidth: 200/1875 (Available: 1675 MB)
+[2025-01-02 13:43:37] Operator 4: Accepted rerouting request. Reason: None
+Node 4 accepted contract 1587 (Urgency: 2, Priority: 3)
+[RoutingHub] Contract 1587 assigned to Node 4
+
+
+Detecting disruptions...
