@@ -1,3 +1,4 @@
+# main.py
 import time
 import random
 from node import Node
@@ -7,50 +8,53 @@ from utility_functions import detect_disruption
 from web3 import Web3
 from web3.middleware import ExtraDataToPOAMiddleware
 from smart_contract import deploy_contract
+from situational_awareness_hub import SituationalAwarenessHub
 
 def simulate():
-    # Connect to Ethereum client
-    w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))  # Ensure this matches your Ganache port
+    # Connect to Ethereum client (Ganache)
+    w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))  # Update host/port if needed
     w3.middleware_onion.inject(ExtraDataToPOAMiddleware, layer=0)
 
-    # Get accounts from Ganache
+    # Retrieve accounts from Ganache
     accounts = w3.eth.accounts
 
-    # Create a mapping of account addresses to private keys (all addresses in lowercase)
+    # Map addresses to private keys
     private_keys = {
-        '0x2b322409c4f3ac1e7b9bb059c0c52e0134a69934': '0x2f62906a0ea166787a531bf39719d0efb1c8c335ca202731d9bee022b8a84860',
-        '0x29e1f9e7d7960b8e7b9ad5c7ea4339be0308c9f8': '0x85cec0001b6aac76ff7fdccba543407a75dd63f5792c2a2c41c1a1788cac4bbd',
-        '0x6fd7ec6ec104609a2607244e6c5847af436f607e': '0x63afbaecba43bc82cc2816731bea2e47d8d12e023de3937f5866ae528367e8a1',
-        '0xa69f5bca5be2cb55ce9cd895b9a07583f775665c': '0xe36a7867cd655612fca9645091d5b5a1f6fab47d02956a9bb2f2e0026bde7841',
-        '0x81735d824d81c0a66bd530b6b03c6594ba826d57': '0xde6171ab96535bf9d3291366f0be5052ed8652cbd8eac03cb1e8eeeedaebf418',
+        '0x1458318CE242d8eD8aedfedD013FD76135ceCD51': '0x2a248cba479646350341057f13952c08b811aef3457e053d9ac6b6b70c5e1184',
+        '0x3Ed5D636F4bF3590Eb6402cD677cf633dEb4275E': '0x31482f234bc8acfb5360194c0c0d01cd8f947f60c7b523bc2320401dd993d1f9',
+        '0xc9D947A27975375bbe584abF769335Ea70bDf1C2': '0xd7222dae1c9fcdba8f16a9b58736a442c1d91194c826afdbff4948a3ac490080',
+        '0xcFbC4df8F73B5198f3999b9aB07Bd00BB36e9b1B': '0x7523748cb1c2001123a25b8c2d8f4b82a6af8bd37b82be3ba88319c38f49a75c',
+        '0xBAB7C243F8c2234d68058E2C3e8582915D129d9d': '0xb9aeb92b326934eced859384a4b1f828bb44adb50b59d5fa0eb6ecf82e5adebd',
+        '0xC56b992d7c51b6a0c0a0adb03B8601070a6f2E57': '0x3f3dcc6e98448c4b2ee960283b3439d72c8aa8edca36f5e0cbb62afcd46cc74f',
     }
 
-    # Assign proposer and requester accounts
+    # Assign proposer and requester
     account_proposer = accounts[0]
     account_requester = accounts[1]
 
-    # Retrieve private keys, ensuring addresses are lowercase
-    proposer_private_key = private_keys.get(account_proposer.lower())
-    requester_private_key = private_keys.get(account_requester.lower())
+    # Get matching private keys
+    proposer_private_key = private_keys.get(account_proposer)
+    requester_private_key = private_keys.get(account_requester)
 
     if not proposer_private_key or not requester_private_key:
         print("Proposer or requester private key not found.")
         return
 
-    # Deploy the smart contract
-    contract_address, handshake_contract = deploy_contract(w3, accounts[0], proposer_private_key)
+    # Deploy the Solidity contract
+    contract_address, handshake_contract = deploy_contract(w3, account_proposer, proposer_private_key)
 
     # Initialize nodes
     nodes = []
     for i in range(2, len(accounts)):
-        node_account = accounts[i].lower()
+        node_account = accounts[i]
         node_private_key = private_keys.get(node_account)
         if not node_private_key:
             print(f"Private key for account {accounts[i]} not found.")
             continue
+
         node = Node(
             node_id=i-1,
-            bandwidth=random.randint(1000, 5000),
+            bandwidth=random.randint(1000, 2500),
             w3=w3,
             contract=handshake_contract,
             account=accounts[i],
@@ -58,15 +62,18 @@ def simulate():
         )
         nodes.append(node)
 
-    # Initialize the routing hub
-    routing_hub = RoutingHub(nodes, w3, handshake_contract, accounts[1], requester_private_key)
+    # Create the RoutingHub
+    routing_hub = RoutingHub(nodes, w3, handshake_contract, account_requester, requester_private_key)
 
-    # Generate random data requests
+    # Create the Situational Awareness Hub
+    sa_hub = SituationalAwarenessHub()
+
+    # Generate some random data requests
     data_requests = [
         DataRequest(
             request_id=i,
-            source="GroundStation{}".format(random.randint(1, 3)),
-            destination="Satellite{}".format(random.randint(1, 3)),
+            source=f"GroundStation{random.randint(1,3)}",
+            destination=f"Satellite{random.randint(1,3)}",
             data_size=random.choice([50, 100, 200]),
             importance=random.randint(1, 5),
             time_sensitivity=random.choice(["urgent", "normal", "no urgency"]),
@@ -81,18 +88,49 @@ def simulate():
         ) for i in range(1, 11)
     ]
 
-    # Route each data request and process nodes
-    for request in data_requests:
-        # Update environmental conditions for all nodes
+    # Main simulation loop
+    # Adjust range as desired for more/less cycles
+    for cycle in range(1, 6):
+        print(f"\n=== Simulation Cycle {cycle} ===")
+
+        # Step 1: The SA Hub checks the infrastructure
+        sa_hub.monitor_infrastructure()
+
+        # If a new threat is detected, issue alerts and possibly route a request
+        if sa_hub.alert_issued:
+            sa_hub.issue_alerts(nodes)
+
+            # For demonstration, route a random user request upon threat detection
+            req = random.choice(data_requests)
+            routing_hub.route_request(req)
+
+        # If the SA Hub says conditions are restored, terminate active contracts
+        if sa_hub.restored:
+            active_contract_ids = list(routing_hub.active_contracts.keys())
+            for cid in active_contract_ids:
+                routing_hub.terminate_contract(cid)
+
+            sa_hub.reset_restored_flag()
+
+        # Let each node process tasks
         for node in nodes:
             node.update_environment_conditions()
-        routing_hub.route_request(request)
         routing_hub.process_all_nodes()
+
+        if random.random() < 0.75:
+            req = random.choice(data_requests)
+            routing_hub.route_request(req)
+
+        # If there are any high-security contracts, log them
+        for cinfo in routing_hub.active_contracts.values():
+            contract = cinfo['contract']
+            routing_hub.log_high_classification_traffic(contract)
+
+        # Run disruption detection
+        detect_disruption(nodes, routing_hub)
+
+        # Delay between simulation cycles (optional)
         time.sleep(1)
 
-    # Detect disruptions
-    detect_disruption(nodes, routing_hub)
-
-# Run simulation
 if __name__ == "__main__":
     simulate()
